@@ -41,10 +41,11 @@ angular.module('pubnub.angular.service', [])
 
     # Add bindings to the original vanilla JavaScript PubNub API methods under the "jsapi" key.
     # We create and invoke a closure to capture both the angular context method name into the helper function.
-    for k of pubnub
-      if pubnub?[k] instanceof Function
-        ((kk) -> c['jsapi'][kk] = ->
-          c['_instance']?[kk].apply c['_instance'], arguments)(k)
+    if pubnub?
+      for k of pubnub
+        if pubnub[k] instanceof Function
+          ((kk) -> c['jsapi'][kk] = ->
+            c['_instance']?[kk].apply c['_instance'], arguments)(k)
 
     # Add a field so that clients can tell the library has been initialized.
     c.initialized = -> !!c['_instance']
